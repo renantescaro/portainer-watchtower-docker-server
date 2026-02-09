@@ -53,6 +53,35 @@ O arquivo utiliza os segredos `DOCKERHUB_USERNAME` e `DOCKERHUB_TOKEN` configura
 
 As aplicações são gerenciadas como **Stacks** dentro do painel do Portainer.
 
+
+### Stack: Nginx Proxy Manager (`proxy-manager`)
+
+Gerencia múltiplos domínios apontando para diferentes containers
+
+painel ```http://localhost:81/```
+
+```yaml
+version: '3.8'
+services:
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: always
+    ports:
+      - '80:80'   # Porta HTTP padrão
+      - '81:81'   # Painel de controle do NPM
+      - '443:443' # Porta HTTPS padrão
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - apps-network
+
+networks:
+  apps-network:
+    external: true
+```
+
 ### Stack: Banco de Dados (`db-server`)
 
 Contém o MariaDB e o Adminer para gerenciar bancos de dados via navegador na porta `8081`.

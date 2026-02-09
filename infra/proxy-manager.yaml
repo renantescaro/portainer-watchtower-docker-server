@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: always
+    ports:
+      - '80:80'   # Porta HTTP padrão
+      - '81:81'   # Painel de controle do NPM
+      - '443:443' # Porta HTTPS padrão
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - apps-network
+
+networks:
+  apps-network:
+    external: true
