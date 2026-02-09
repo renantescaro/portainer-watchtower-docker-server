@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  flask-app:
+    image: docker-hub-user/repo-name
+    ports:
+      - "5000:5000"
+    restart: always
