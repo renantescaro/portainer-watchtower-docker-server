@@ -58,6 +58,7 @@ As aplicações são gerenciadas como **Stacks** dentro do painel do Portainer.
 Contém o MariaDB e o Adminer para gerenciar bancos de dados via navegador na porta `8081`.
 ```yaml
 version: '3.8'
+
 services:
   mariadb:
     image: mariadb:latest
@@ -65,16 +66,26 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      - MARIADB_ROOT_PASSWORD=SUA_SENHA_AQUI
+      - MARIADB_ROOT_PASSWORD=sua_senha_mestra
     ports:
       - "3306:3306"
+    networks:
+      - apps-network
     volumes:
       - mariadb_data:/var/lib/mysql
+
   adminer:
     image: adminer:latest
     restart: always
+    networks:
+      - apps-network
     ports:
       - "8081:8080"
+
+networks:
+  apps-network:
+    external: true
+
 volumes:
   mariadb_data:
 ```
@@ -85,12 +96,23 @@ Configuração para rodar a aplicação Python puxando a imagem do Docker Hub.
 
 ```yaml
 version: '3.8'
+
 services:
   flask-app:
-    image: docker-hub-user/repo-name:latest
+    image: docker-hub-user/repo-name
     ports:
       - "5000:5000"
     restart: always
+    environment:
+      - DATABASE_URI=${STACK_DATABASE_URL}
+      - USER_ADM=${STACK_USER_ADM}
+      - USER_ADM_PASSWORD=${STACK_ADM_PASSWORD}
+    networks:
+      - apps-network
+
+networks:
+  apps-network:
+    external: true
 ```
 ---
 

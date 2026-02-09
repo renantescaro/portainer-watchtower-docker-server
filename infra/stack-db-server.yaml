@@ -10,14 +10,22 @@ services:
       - MARIADB_ROOT_PASSWORD=sua_senha_mestra
     ports:
       - "3306:3306"
+    networks:
+      - apps-network
     volumes:
       - mariadb_data:/var/lib/mysql
 
   adminer:
     image: adminer:latest
     restart: always
+    networks:
+      - apps-network
     ports:
       - "8081:8080"
+
+networks:
+  apps-network:
+    external: true
 
 volumes:
   mariadb_data:

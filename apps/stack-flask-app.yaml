@@ -6,3 +6,13 @@ services:
     ports:
       - "5000:5000"
     restart: always
+    environment:
+      - DATABASE_URI=${STACK_DATABASE_URL}
+      - USER_ADM=${STACK_USER_ADM}
+      - USER_ADM_PASSWORD=${STACK_ADM_PASSWORD}
+    networks:
+      - apps-network
+
+networks:
+  apps-network:
+    external: true
