@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare-tunnel
+    restart: always
+    command: tunnel run --token SEU_TOKEN_AQUI # token no Cloudflare Tunnels
+    networks:
+      - apps-network
+
+networks:
+  apps-network:
+    external: true
