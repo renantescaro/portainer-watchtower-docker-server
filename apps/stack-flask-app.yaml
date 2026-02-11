@@ -7,6 +7,7 @@ services:
       - "5000:5000"
     restart: always
     environment:
+      - PYTHONUNBUFFERED=1
       - DATABASE_URI=${STACK_DATABASE_URL}
       - USER_ADM=${STACK_USER_ADM}
       - USER_ADM_PASSWORD=${STACK_ADM_PASSWORD}
